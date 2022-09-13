@@ -1,0 +1,133 @@
+﻿<!doctype html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="/cdn-cgi/apps/head/HgEkPdSixnSdgojCRjiPoKwDXoA.js"></script><link type="Image/x-icon" href="favicon.ico" rel="icon">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<title>День Программиста | ASM</title>
+<link rel="stylesheet" href="/assets/css/style.css">
+<script src="/jquery-3.3.1.min.js"></script>
+<script src="/company_modules.js"></script>
+
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<!--[if lt IE 8]>
+<link rel="stylesheet" href="/ux/assets/css/ie.css">
+<![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<script src="ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+</head>
+<body>
+<div id="header">
+<nav>
+<div class="navbar">
+<div class="menu-top">
+<ul>
+<li><a class="links" href="/python">Python</a></li>
+<li><a class="links" href="/cpp">C++</a></li>
+<li><a class="links" href="/c">C</a></li>
+<li><a class="links" href="/csharp">C#</a></li>
+<li><a class="links" href="/java">Java</a></li>
+<li><a class="links" href="/js">JS</a></li>
+<li><a class="links" href="/go">Go</a></li>
+<li><a class="links" href="/asm">ASM (32-bit win)</a></li>
+<li><a class="links" href="/html">HTML</a></li>
+<li><a class="links" href="/php">PHP</a></li>
+<li><a class="links" href="/swift">Swift</a></li>
+<li><a class="links" href="/kotlin">Kotlin</a></li>
+<li><a class="links" href="/pascal">Pascal</a></li>
+<li><a class="links" href="/ruby">Ruby</a></li>
+<li><a class="links" href="/VB.NET">VB.NET</a></li>
+</ul>
+</div>
+<div class="menu-btn">
+<span></span>
+<span></span>
+<span></span>
+</div>
+</div>
+<div class="menu menu-slice">
+<ul>
+    <li><a class="links" href="/python">Python</a></li>
+    <li><a class="links" href="/cpp">C++</a></li>
+    <li><a class="links" href="/c">C</a></li>
+    <li><a class="links" href="/csharp">C#</a></li>
+    <li><a class="links" href="/java">Java</a></li>
+    <li><a class="links" href="/js">JS</a></li>
+    <li><a class="links" href="/go">Go</a></li>
+    <li><a class="links" href="/asm">ASM (32-bit win)</a></li>
+    <li><a class="links" href="/html">HTML</a></li>
+    <li><a class="links" href="/php">PHP</a></li>
+    <li><a class="links" href="/swift">Swift</a></li>
+    <li><a class="links" href="/kotlin">Kotlin</a></li>
+    <li><a class="links" href="/pascal">Pascal</a></li>
+    <li><a class="links" href="/ruby">Ruby</a></li>
+    <li><a class="links" href="/VB.NET">VB.NET</a></li>
+</ul>
+</div>
+</nav>
+</div>
+<div class="wrapper">
+<section>
+<div id="title">
+<h1>С Днём Программиста!</h1>
+<p>На ASM</p>
+<hr>
+<span class="credits left">By <a style="color: gray;" href="https://klondikeprogrammers.ga/platon">Platon</a></span>
+<span class="credits right"><text style="color: #007BB4; text-shadow: 1px 1px 1px #000;" id="sub"></text></span>
+</div>
+<a href="/"><button class="button"><h3>Назад</h3></button><br></a>
+<br>
+<p>Тут я показал как написать текст в консоли "С Днём Программиста" на ASM.<p>
+<pre><code>    global _main
+    extern  _GetStdHandle@4
+    extern  _WriteFile@20
+    extern  _ExitProcess@4
+
+    section .text
+_main:
+    ; DWORD  bytes;    
+    mov     ebp, esp
+    sub     esp, 4
+
+    ; hStdOut = GetstdHandle( STD_OUTPUT_HANDLE)
+    push    -11
+    call    _GetStdHandle@4
+    mov     ebx, eax    
+
+    ; WriteFile( hstdOut, message, length(message), &bytes, 0);
+    push    0
+    lea     eax, [ebp-4]
+    push    eax
+    push    (message_end - message)
+    push    message
+    push    ebx
+    call    _WriteFile@20
+
+    ; ExitProcess(0)
+    push    0
+    call    _ExitProcess@4
+
+    ; never here
+    hlt
+message:
+    db      'С Днём Программиста!', 10
+message_end:
+</code></pre>
+<footer>
+<p>© Platon <span id="year"></span></p>
+</footer>
+<script>
+let menuBtn = document.querySelector('.menu-btn');
+let menu = document.querySelector('.menu');
+menuBtn.addEventListener('click', function(){
+menuBtn.classList.toggle('active');
+menu.classList.toggle('active');
+})
+let curDateObj = new Date();
+document.getElementById("year").innerHTML = curDateObj.getFullYear();
+</script>
+</body>
+</html>
